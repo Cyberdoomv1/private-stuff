@@ -104,11 +104,7 @@ celestialbreath = Weapon("breath",9999999999999999999999999999999999999999999999
 
 
 d = []
-for i in range(5):
-    r = []
-    for x in range(5):
-       r.append(Room(choice(roomlist),False))
-    d.append(r)
+
    
 # count = 0
 # for x in d:
@@ -153,7 +149,7 @@ player = Entity("steven the brave",male,100,100,0,0,shortsword.wpnatk,shortsword
 
 #subroutines-----------------------------------------------------------------------------
 
-def encounterstart(male,female,unknown,directions):
+def encountersetup(male,female,unknown,directions):
     montype = randint(1,101)
     if montype < 26:
         montype = "Goblin"
@@ -272,11 +268,11 @@ def encounterstart(male,female,unknown,directions):
     
         
     monster = Entity(montype,gend,monhealth,monmaxhealth,monexp,mongold,wpnatk,wpn,0,0)
-    if monster.name not in("unspeakable horror"):
-        fight(directions,monster,gend,wpn)
-    else:
-        print(monster.stats)
-        escape()
+#     if monster.name not in("unspeakable horror"):
+#         fight(directions,monster,gend,wpn)
+#     else:
+#         print(monster.stats)
+#         gameover(monster)
 
 def fight(directions,monster,gender,wpn):
     fighting = True
@@ -381,7 +377,7 @@ def loot():
     lootchance = randint(1,20)
     if lootchance > 14:
         print("the",monster.name,"dropped",monster.gender[2],monster.wpn)
-        print(moster.name+"'s weapon")
+        print(monster.name+"'s weapon")
         print("name:",monster.wpn)
         print("damage:",monster.atk)
         print("your weapon")
@@ -389,7 +385,7 @@ def loot():
         print("damage:",player.atk)
         validating = True
         while validating:
-            choice = input("would you like to take",monster.gender[2],monster.wpn+"? y/n: ").lower()
+            choice = input("would you like to take "+monster.gender[2],monster.wpn+"? y/n: ").lower()
             if choice in("y","yes","1"):
                 print("you dropped your",player.wpn,"and you picked up the",monster.wpn,"from its corpse")
                 player.wpn = monster.wpn
@@ -399,6 +395,7 @@ def loot():
             else:
                 print("huh?")
 
+def gameover(monster)
 
 
 
@@ -408,30 +405,30 @@ def loot():
 
 
 #main-----------------------------------------
-print("A large oaken door stands before",player.name," the entrance to a dungeon that has claimed many a brave adventurer")
+print("A large oaken door stands before",player.name,"the entrance to a dungeon that has claimed many a brave adventurer")
 print("the choice before "+player.gender[1]+" is one many have asked themselves: do you go in? ")
-choice = input(":").lower()
-validating = True
-while validating:
-    if choice in("y","yes","ye","i do"):
-        player.xcor = 0
-        player.ycor = 0
-        encounterstart(male,female,unknown,directions)
-        valdating = False
-    elif choice in("n","no","i dont"):
-        print("Despite all the money",player.name,"spent on",player.gender[2],"gear and cool sword",player.gender[0],"decides",player.gender[2],"life is worth more than fame riches and glory")
-        print("and so",player.gender[0],"walked off back to",player.gender[4],"town never to do anything brave ever again.")
-        sleep(3)
-        print("""______ _       _____   __  _____ _   _  _____   _____   ___  ___  ___ _____  ____________ _________________ ___________ _   __   __
-| ___ \ |     / _ \ \ / / |_   _| | | ||  ___| |  __ \ / _ \ |  \/  ||  ___| | ___ \ ___ \  _  | ___ \ ___ \  ___| ___ \ |  \ \ / /
-| |_/ / |    / /_\ \ V /    | | | |_| || |__   | |  \// /_\ \| .  . || |__   | |_/ / |_/ / | | | |_/ / |_/ / |__ | |_/ / |   \ V / 
-|  __/| |    |  _  |\ /     | | |  _  ||  __|  | | __ |  _  || |\/| ||  __|  |  __/|    /| | | |  __/|  __/|  __||    /| |    \ /  
-| |   | |____| | | || |     | | | | | || |___  | |_\ \| | | || |  | || |___  | |   | |\ \\ \_/ / |   | |   | |___| |\ \| |____| |  
-\_|   \_____/\_| |_/\_/     \_/ \_| |_/\____/   \____/\_| |_/\_|  |_/\____/  \_|   \_| \_|\___/\_|   \_|   \____/\_| \_\_____/\_/  
-                                                                                                                                   
-                                                                                                                                   """)
-        validating = False
-    else:
-        print("I didnt catch that")
-        choice = input("do you go in? ")
-        
+# choice = input(":").lower()
+# validating = True
+# while validating:
+#     if choice in("y","yes","ye","i do"):
+#         player.xcor = 0
+#         player.ycor = 0
+#         encountersetup(male,female,unknown,directions)
+#         valdating = False
+#     elif choice in("n","no","i dont"):
+#         print("Despite all the money",player.name,"spent on",player.gender[2],"gear and cool sword",player.gender[0],"decides",player.gender[2],"life is worth more than fame riches and glory")
+#         print("and so",player.gender[0],"walked off back to",player.gender[4],"town never to do anything brave ever again.")
+#         sleep(3)
+#         print("""______ _       _____   __  _____ _   _  _____   _____   ___  ___  ___ _____  ____________ _________________ ___________ _   __   __
+# | ___ \ |     / _ \ \ / / |_   _| | | ||  ___| |  __ \ / _ \ |  \/  ||  ___| | ___ \ ___ \  _  | ___ \ ___ \  ___| ___ \ |  \ \ / /
+# | |_/ / |    / /_\ \ V /    | | | |_| || |__   | |  \// /_\ \| .  . || |__   | |_/ / |_/ / | | | |_/ / |_/ / |__ | |_/ / |   \ V / 
+# |  __/| |    |  _  |\ /     | | |  _  ||  __|  | | __ |  _  || |\/| ||  __|  |  __/|    /| | | |  __/|  __/|  __||    /| |    \ /  
+# | |   | |____| | | || |     | | | | | || |___  | |_\ \| | | || |  | || |___  | |   | |\ \\ \_/ / |   | |   | |___| |\ \| |____| |  
+# \_|   \_____/\_| |_/\_/     \_/ \_| |_/\____/   \____/\_| |_/\_|  |_/\____/  \_|   \_| \_|\___/\_|   \_|   \____/\_| \_\_____/\_/  
+#                                                                                                                                    
+#                                                                                                                                    """)
+#         validating = False
+#     else:
+#         print("I didnt catch that")
+#         choice = input("do you go in? ")
+encountersetup(male,female,unknown,directions)
