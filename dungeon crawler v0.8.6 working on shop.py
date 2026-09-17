@@ -102,7 +102,7 @@ class Entity:
         print("-------------------")
         print("inventory:")
         for i in range(1,len(self.inventory)):
-            print(str(i)+":",self.inventory[i].name,"G"+str(self.inventory[i].cost*0.75))
+            print(str(i)+":",self.inventory[i].name,"G"+str(int(self.inventory[i].cost // 0.75)))
         print("-------------------")
             
 class Weapon:
@@ -170,7 +170,7 @@ emptyslot = Food("empty",999999999999,"this is an empty slot",0)
 
 
 #player setup--------------------------------------------------------------------------------------
-player = Entity("steven the brave",male,100,100,0,500,shortsword.wpnatk,shortsword,0,0,["nuclear bomb"])
+player = Entity("steven the brave",male,100,100,0,500,shortsword.wpnatk,shortsword,0,0,["nuclear bomb",freshbread])
 # validating = True
 # while validating:
 #     nchoice = input("what is the heros name: ").title()
@@ -607,7 +607,7 @@ dungeon = [[r00,r10,r20,r30,r40,r50,r60,r70,r80,r90,r100],
            [r010,r110,r210,r310,r410,r510,r610,r710,r810,r910,r1010]]
 
 
-#is the gameplay for encoungter rooms
+#is the gameplay for encounter rooms
 def fight():
     monster = dungeon[player.ycor][player.xcor].monster
     wpn = dungeon[player.ycor][player.xcor].monster.wpn
@@ -637,7 +637,7 @@ def fight():
                     else:
                         print("The tiny but still intimidating Goblin brandishing its",monster.wpn.name,"blocked your way")
                         sleep(1)
-                        monster.attack(player,gender,wpn)
+                        monster.attack(player,wpn)
                 elif monster.name == "Orc":
                     escchance = randint(1,20)
                     if escchance > 10:
@@ -646,7 +646,7 @@ def fight():
                     else:
                         print("The strong Ork brandishing its",monster.wpn.name,"blocked your way")
                         sleep(1)
-                        monster.attack(player,gender,wpn)
+                        monster.attack(player,wpn)
                         validating = False
                 elif monster.name == "Ghoul":
                     escchance = randint(1,20)
@@ -656,7 +656,7 @@ def fight():
                     else:
                         print("The fearsome Ghoul brandishing its claws blocked your way")
                         sleep(1)
-                        monster.attack(player,gender,wpn)
+                        monster.attack(player,wpn)
                         validating = False
                 elif monster.name == "Golem":
                     escchance = randint(1,20)
@@ -666,7 +666,7 @@ def fight():
                     else:
                         print("The hulking Golem brandishing its clublike fists blocked your way")
                         sleep(1)
-                        monster.attack(player,gender,wpn)
+                        monster.attack(player,wpn)
                         validating = False
                 elif monster.name == "Dragon":
                     escchance = randint(1,20)
@@ -675,27 +675,29 @@ def fight():
                         fighting = False
                 else:
                     print("The fearsome dragon snorting flame blocked your way")
-                    sleep(1)
-                    monster.attack(player,gender,wpn)
+                        sleep(1)
+                    monster.attack(player,wpn)
                     validating = False
                         
             elif action in("fight","attack","atk","strike","2"):
                 player.attack(monster,monster.wpn)
-                monster.attack(player,player.wpn)
-                
-            if monster.health == 0:
-                loot(monster)
+                if monster.health > 0:
+                    monster.attack(player,player.wpn)
+                elif player.health < 1:
+                    gameover()
+                else:
+                    fighting = False
 
 #executes your hasty retreat
 def escape(monster):
     directions = ["north","south","east","west"]
     if player.xcor == 0 or dungeon[player.ycor][player.xcor-1].roomtype == "blocked":
         directions.remove("west")
-    elif player.xcor == 10 or dungeon[player.ycor][player.xcor+1].roomtype == "blocked":
+    if player.xcor == 10 or dungeon[player.ycor][player.xcor+1].roomtype == "blocked":
         directions.remove("east")
     if player.ycor == 10 or dungeon[player.ycor+1][player.xcor].roomtype == "blocked":
         directions.remove("south")
-    elif player.ycor == 0 or dungeon[player.ycor-1][player.xcor].roomtype == "blocked":
+    if player.ycor == 0 or dungeon[player.ycor-1][player.xcor].roomtype == "blocked":
         directions.remove("north")
     validating2 = True
     while validating2:
@@ -889,27 +891,40 @@ def shop():
                         choice = input("which one will you be parting with today? ").lower()
                         validating2 = True
                         while validating2:
-                            if choice in("1","2","3",",4","5","6","7","8","9"):
-                                int(choice)
+                            try:
+                                choice = int(choice)
+                                print("i will take this",player.inventory[choice].name)
+                                print("sold",player.inventory[choice].name,"for G"+str(int(player.inventory[choice].cost // 0.75)))
+                                player.gold += int(player.inventory[choice].cost // 0.75)
+                                player.inventory.remove(player.inventory[choice])
                                 validating2 = False
-                            else:
+                            except:
                                 choice = input("numbers 1-9: ")
-                        print("i will take this",player.inventory[choice].name)
-                        print("sold",player.inventory[choice].name,"for",player.inventory[choice].cost*0.75)
-                        player.gold += player.inventory[choice].cost*0.75
-                        player.inventory.remove(player.inventory[choice])
-                
+                elif choice in("inspect","i","look at","look","see"):
+                    validating2 = True
+                    while validating2:
+                        choice = input("what number? ").lower()
+                        if choice in("1","2","3","4","5","6","7","8","9"):
+                            choice = int(choice)
+                            if sinventory[choice].name == "empty":
+                                print("that slot is empty",player.gender[5])
+                            else:
+                                print("thats a",sinventory[choice].name+",",sinventory[choice].description)
+                                validating2 = False
+                        else:
+                            print("pick a number 1-9")
+                elif choice in()
 
 #lets you move
 def move():
     directions = ["north","south","east","west"]
     if player.xcor == 0 or dungeon[player.ycor][player.xcor-1].roomtype == "blocked":
         directions.remove("west")
-    elif player.xcor == 10 or dungeon[player.ycor][player.xcor+1].roomtype == "blocked":
+    if player.xcor == 10 or dungeon[player.ycor][player.xcor+1].roomtype == "blocked":
         directions.remove("east")
     if player.ycor == 10 or dungeon[player.ycor+1][player.xcor].roomtype == "blocked":
         directions.remove("south")
-    elif player.ycor == 0 or dungeon[player.ycor-1][player.xcor].roomtype == "blocked":
+    if player.ycor == 0 or dungeon[player.ycor-1][player.xcor].roomtype == "blocked":
         directions.remove("north")
     if player.health > player.health*0.75:
         action = "stride"
