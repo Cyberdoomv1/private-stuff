@@ -330,7 +330,7 @@ def roomsetup():
 #rooms
 rtype,rmon = "empty","hello so there actually isnt any monster here and i dont think you should be able to see this"
 r00 = Room(rtype,rmon,False)
-rtype,rmon = roomsetup()
+rtype,rmon = "blocked",""#roomsetup()
 r01 = Room(rtype,rmon,False)
 rtype,rmon = roomsetup()
 r02 = Room(rtype,rmon,False)
@@ -615,7 +615,7 @@ def fight():
                     else:
                         print("The tiny but still intimidating Goblin brandishing its",monster.wpn.name,"blocked your way")
                         sleep(1)
-                        monster.attack(player,gender,wpn)
+                        monster.attack(player,wpn)
                 elif monster.name == "Orc":
                     escchance = randint(1,20)
                     if escchance > 10:
@@ -624,7 +624,7 @@ def fight():
                     else:
                         print("The strong Ork brandishing its",monster.wpn.name,"blocked your way")
                         sleep(1)
-                        monster.attack(player,gender,wpn)
+                        monster.attack(player,wpn)
                         validating = False
                 elif monster.name == "Ghoul":
                     escchance = randint(1,20)
@@ -634,7 +634,7 @@ def fight():
                     else:
                         print("The fearsome Ghoul brandishing its claws blocked your way")
                         sleep(1)
-                        monster.attack(player,gender,wpn)
+                        monster.attack(player,wpn)
                         validating = False
                 elif monster.name == "Golem":
                     escchance = randint(1,20)
@@ -644,7 +644,7 @@ def fight():
                     else:
                         print("The hulking Golem brandishing its clublike fists blocked your way")
                         sleep(1)
-                        monster.attack(player,gender,wpn)
+                        monster.attack(player,wpn)
                         validating = False
                 elif monster.name == "Dragon":
                     escchance = randint(1,20)
@@ -654,26 +654,31 @@ def fight():
                 else:
                     print("The fearsome dragon snorting flame blocked your way")
                     sleep(1)
-                    monster.attack(player,gender,wpn)
+                    monster.attack(player,wpn)
                     validating = False
                         
             elif action in("fight","attack","atk","strike","2"):
                 player.attack(monster,monster.wpn)
-                monster.attack(player,player.wpn)
+                if monster.health > 0:
+                    monster.attack(player,player.wpn)
+                elif player.health < 1:
+                    gameover()
+                else:
+                    fighting = False
                 
-            if monster.health == 0:
-                loot(monster)
+    if monster.health == 0:
+        loot(monster)
 
 #executes your hasty retreat
 def escape(monster):
     directions = ["north","south","east","west"]
     if player.xcor == 0 or dungeon[player.ycor][player.xcor-1].roomtype == "blocked":
         directions.remove("west")
-    elif player.xcor == 10 or dungeon[player.ycor][player.xcor+1].roomtype == "blocked":
+    if player.xcor == 10 or dungeon[player.ycor][player.xcor+1].roomtype == "blocked":
         directions.remove("east")
     if player.ycor == 10 or dungeon[player.ycor+1][player.xcor].roomtype == "blocked":
         directions.remove("south")
-    elif player.ycor == 0 or dungeon[player.ycor-1][player.xcor].roomtype == "blocked":
+    if player.ycor == 0 or dungeon[player.ycor-1][player.xcor].roomtype == "blocked":
         directions.remove("north")
     validating2 = True
     while validating2:
@@ -806,11 +811,11 @@ def move():
     directions = ["north","south","east","west"]
     if player.xcor == 0 or dungeon[player.ycor][player.xcor-1].roomtype == "blocked":
         directions.remove("west")
-    elif player.xcor == 10 or dungeon[player.ycor][player.xcor+1].roomtype == "blocked":
+    if player.xcor == 10 or dungeon[player.ycor][player.xcor+1].roomtype == "blocked":
         directions.remove("east")
     if player.ycor == 10 or dungeon[player.ycor+1][player.xcor].roomtype == "blocked":
         directions.remove("south")
-    elif player.ycor == 0 or dungeon[player.ycor-1][player.xcor].roomtype == "blocked":
+    if player.ycor == 0 or dungeon[player.ycor-1][player.xcor].roomtype == "blocked":
         directions.remove("north")
     if player.health > player.health*0.75:
         action = "stride"
@@ -1067,14 +1072,12 @@ while validating:
         print("and so",player.gender[0],"walked off back to",player.gender[4],"town never to do anything brave ever again.")
         sleep(5)
         print("""
-______ _       _____   __  _____ _   _  _____   _____   ___  ___  ___ _____  ____________ _________________ ___________ _   __   __
-| ___ \ |     / _ \ \ / / |_   _| | | ||  ___| |  __ \ / _ \ |  \/  ||  ___| | ___ \ ___ \  _  | ___ \ ___ \  ___| ___ \ |  \ \ / /
-| |_/ / |    / /_\ \ V /    | | | |_| || |__   | |  \// /_\ \| .  . || |__   | |_/ / |_/ / | | | |_/ / |_/ / |__ | |_/ / |   \ V / 
-|  __/| |    |  _  |\ /     | | |  _  ||  __|  | | __ |  _  || |\/| ||  __|  |  __/|    /| | | |  __/|  __/|  __||    /| |    \ /  
-| |   | |____| | | || |     | | | | | || |___  | |_\ \| | | || |  | || |___  | |   | |\ \\ \_/ / |   | |   | |___| |\ \| |____| |  
-\_|   \_____/\_| |_/\_/     \_/ \_| |_/\____/   \____/\_| |_/\_|  |_/\____/  \_|   \_| \_|\___/\_|   \_|   \____/\_| \_\_____/\_/  
-                                                                                                                                   
-                                                                                                                                   """)
+______ _       _____   __  _____ _   _  _____   _____   ___  ___  ___ _____  ____________ ___________ ___________ _   __   __
+| ___ \ |     / _ \ \ / / |_   _| | | ||  ___| |  __ \ / _ \ |  \/  ||  ___| | ___ \ ___ \  _  | ___ \  ___| ___ \ |  \ \ / /
+| |_/ / |    / /_\ \ V /    | | | |_| || |__   | |  \// /_\ \| .  . || |__   | |_/ / |_/ / | | | |_/ / |__ | |_/ / |   \ V / 
+|  __/| |    |  _  |\ /     | | |  _  ||  __|  | | __ |  _  || |\/| ||  __|  |  __/|    /| | | |  __/|  __||    /| |    \ /  
+| |   | |____| | | || |     | | | | | || |___  | |_\ \| | | || |  | || |___  | |   | |\ \\ \_/ / |   | |___| |\ \| |____| |  
+\_|   \_____/\_| |_/\_/     \_/ \_| |_/\____/   \____/\_| |_/\_|  |_/\____/  \_|   \_| \_|\___/\_|   \____/\_| \_\_____/\_/ """)
         validating = False
     else:
         print("I didnt catch that")
