@@ -130,8 +130,10 @@ class Entity:
                         choice = int(choice)
                         if type(self.inventory[choice]) == Food:
                             self.heal(self.inventory[choice])
+                            self.inventory.remove(self.inventory[choice])
                         elif type(self.inventory[choice]) == HealPotion:
                             self.heal(self.inventory[choice])
+                            self.inventory.remove(self.inventory[choice])
                         elif type(self.inventory[choice]) == HarmPotion:
                             ans = input("are you sure you want to drink this? y/n")
                             sleep(1)
@@ -139,6 +141,7 @@ class Entity:
                             ans = confirm(ans)
                             if ans == True:
                                 self.heal(self.inventory[choice])
+                                self.inventory.remove(self.inventory[choice])
                             elif ans == False:
                                 print("you decide against drinking the potion")
                                 sleep(1)
@@ -159,17 +162,18 @@ class Entity:
                 sleep(1)
                 print("")
                 if choice in numbers:
+                    choice = int(choice)
                     if type(self.inventory[choice]) == Weapon:
-                        print(self.inventory[choice].name+": deals",self,inventory[choice].wpnatk,"damage")
+                        print(self.inventory[choice].name+": deals",self.inventory[choice].wpnatk,"damage")
                         sleep(1)
                     elif type(self.inventory[choice]) == Food:
-                        print(self.inventory[choice].name+": heals",self,inventory[choice].value,"HP")
+                        print(self.inventory[choice].name+": heals",self.inventory[choice].value,"HP")
                         sleep(1)
                     elif type(self.inventory[choice]) == HealPotion:
-                        print(self.inventory[choice].name+": heals",self,inventory[choice].value,"HP")
+                        print(self.inventory[choice].name+": heals",self.inventory[choice].value,"HP")
                         sleep(1)
                     elif type(self.inventory[choice]) == HarmPotion:
-                        print(self.inventory[choice].name+": damages",self,inventory[choice].value,"HP")
+                        print(self.inventory[choice].name+": damages",self.inventory[choice].value,"HP")
                         sleep(1)
                     if fighting == True:
                         validating = False
@@ -182,6 +186,7 @@ class Entity:
                 sleep(1)
                 print("")
                 if choice in numbers:
+                    choice = int(choice)
                     try:
                         ans = input("are you sure you want to drop this",self.inventory.name+"?")
                         sleep(1)
@@ -214,7 +219,7 @@ class Entity:
             self.wpn = self.inventory[slot]
             self.inventory[slot] = empty
             
-            
+               
 class Weapon:
     def __init__(self,name,wpnatk,wpnswing):
         self.name = name
@@ -413,6 +418,7 @@ def encountersetup():
         
     monster = Entity(montype,gend,monhealth,monmaxhealth,monexp,mongold,wpnatk,wpn,0,0,[])
     return monster
+
 def pfih():
     print("""
 ⢨⠿⣽⢯⣟⡿⣽⣻⢟⡿⣽⣻⡟⣿⣽⣻⣟⣿⣻⣟⣿⣿⣿⡿⣿⣟⣿⣻⣟⣟⡻⢏⡛⠻⢿⣏⡙⢶⡈⠣⡀⢢⠀⠀⠀⠀⠀⠀⣿⢿⡽⣻⣽⣻⣽⣻⢯⣟⡿⣽⣻⢯⣟⣿⣻⢯⣟⣿⣻⢟⣿⣻⡟⣿⣽⣻⢯⣟⣯⠿⣽⢯⢿⡽⢯⡿⡽⢯⣿⣹⢯⢿⣹⢯⡿⡽⣯⣟⢿⣽⣻⢯⣟⡿⣻⣽⣻⣟⡿⣻⢯⣟⡿⣽⣻⢯⣟⡿⣽⣻
@@ -1298,7 +1304,7 @@ def enterroom():
             print("you enter the room warily but its as bare as it was before")
         actions()
     elif dungeon[player.ycor][player.xcor].roomtype == "shop":
-        shop()
+        shop(sinventory)
     elif dungeon[player.ycor][player.xcor].roomtype == "blocked":
         sleep(1)
         print("")
@@ -1322,7 +1328,6 @@ def enterroom():
 
 
 #main----------------------------------------- 
-##fight()  
 #the opening of the game
 print("A large oaken door stands before",player.name,"the entrance to a dungeon that has claimed many a brave adventurer")
 sleep(1)
