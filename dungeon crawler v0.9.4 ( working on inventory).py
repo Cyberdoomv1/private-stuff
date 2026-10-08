@@ -103,6 +103,8 @@ class Entity:
         sleep(0.5)
         print("gold:",self.gold)
         sleep(0.5)
+        print("wpn:",self.wpn.name)
+        sleep(0.5)
         print("atk:",self.atk)
         sleep(0.5)
         print("-------------------")
@@ -496,7 +498,8 @@ def roomsetup():
     return rtype,montype
 
 #rooms
-rtype,rmon = "empty","tis a bare room"
+#rtype,rmon = "empty","tis a bare room"
+rtype,rmon = "encounter",encountersetup()
 r00 = Room(rtype,rmon,False)
 rtype,rmon = roomsetup()
 r01 = Room(rtype,rmon,False)
@@ -834,6 +837,7 @@ def fight():
                     gameover()
                 else:
                     fighting = False
+                    validating = False
             elif action in("3","item","i","inv","inventory"):
                 player.doinventory(fighting)
 
