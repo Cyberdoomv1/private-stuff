@@ -301,50 +301,50 @@ def confirm(choice):
 
 #player setup--------------------------------------------------------------------------------------
 player = Entity("steven the brave",male,100,100,0,500,shortsword.wpnatk,shortsword,0,0,["The Demon Core"])
-# validating = True
-# while validating:
-#     nchoice = input("what is the heros name: ").title()
-#     sleep(1)
-#     print("")
-#     choice = str(input("you have chosen \""+nchoice+"\" is this correct? y/n: ")).lower()
-#     sleep(1)
-#     print("")
-#     choice = confirm(choice)
-#     if answer == True:
-#         print("name set to",nchoice)
-#         sleep(1)
-#         player.name = nchoice
-#         validating = False
-#     elif choice == False:
-#         print("trying again")
-#         sleep(1)
-#     else:
-#         print("invalid input try again")
-#         sleep(1)
-# 
-# validating = True
-# while validating:
-#     gender = input("what is the heros gender(m/f/n): ").lower()
-#     sleep(1)
-#     print("")
-#     if gender in("m","male","man"):
-#         print(player.name+"'s gender is now male")
-#         sleep(1)
-#         player.gender = male
-#         validating = False
-#     elif gender in("f","female","girl"):
-#         print(player.name+"'s gender is now female")
-#         sleep(1)
-#         player.gender = female
-#         validating = False
-#     elif gender in("n","non","nonbinary","non-binary","non binary","none","no","other"):
-#         print(player.name+"'s gender is now beyond the people of the time")
-#         sleep(1)
-#         player.gender = unknown
-#         validating = False
-#     else:
-#         print("invalid input try again")
-#         sleep(1)
+validating = True
+while validating:
+    nchoice = input("what is the heros name: ").title()
+    sleep(1)
+    print("")
+    choice = str(input("you have chosen \""+nchoice+"\" is this correct? y/n: ")).lower()
+    sleep(1)
+    print("")
+    choice = confirm(choice)
+    if choice == True:
+        print("name set to",nchoice)
+        sleep(1)
+        player.name = nchoice
+        validating = False
+    elif choice == False:
+        print("trying again")
+        sleep(1)
+    else:
+        print("invalid input try again")
+        sleep(1)
+
+validating = True
+while validating:
+    gender = input("what is the heros gender(m/f/n): ").lower()
+    sleep(1)
+    print("")
+    if gender in("m","male","man"):
+        print(player.name+"'s gender is now male")
+        sleep(1)
+        player.gender = male
+        validating = False
+    elif gender in("f","female","girl"):
+        print(player.name+"'s gender is now female")
+        sleep(1)
+        player.gender = female
+        validating = False
+    elif gender in("n","non","nonbinary","non-binary","non binary","none","no","other"):
+        print(player.name+"'s gender is now beyond the people of the time")
+        sleep(1)
+        player.gender = unknown
+        validating = False
+    else:
+        print("invalid input try again")
+        sleep(1)
 
 #subroutines-----------------------------------------------------------------------------
 
