@@ -357,7 +357,7 @@ def encountersetup():
         monmaxhealth = monhealth
         monexp = randint(5,15)
         mongold = randint(0,30)
-        wpn = choice([shortsword,dagger,stick,metalbar,mace])
+        wpn = rchoice([shortsword,dagger,stick,metalbar,mace])
         wpnatk = wpn.wpnatk
         gend = randint(1,5)
         if gend == 1:
@@ -372,7 +372,7 @@ def encountersetup():
         monmaxhealth = monhealth
         monexp = randint(20,30)
         mongold = randint(0,10)
-        wpn = choice([shortsword,sword,longsword,dagger,mace,club,flail])
+        wpn = rchoice([shortsword,sword,longsword,dagger,mace,club,flail])
         wpnatk = wpn.wpnatk
         gend = randint(1,5)
         if gend == 1:
