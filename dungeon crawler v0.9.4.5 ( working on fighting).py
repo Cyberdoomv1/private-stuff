@@ -1114,6 +1114,7 @@ def move():
     elif player.health > 0:
         action = "hobble"
     else:
+        action = "float bc you a ghost"
         print("you are dead how tf are you doing that?")
     validating2 = True
     while validating2:
@@ -1319,7 +1320,7 @@ def enterroom():
             print("you enter the room warily but its as bare as it was before")
         actions()
     elif dungeon[player.ycor][player.xcor].roomtype == "shop":
-        shop(sinventory)
+        shopsetup(sinventory)
     elif dungeon[player.ycor][player.xcor].roomtype == "blocked":
         sleep(1)
         print("")
